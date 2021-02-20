@@ -28,16 +28,70 @@ public class Result
 
     public static int findLowestPrice(List<List<string>> products, List<List<string>> discounts)
     {
-        var price = 0;
         var result = 0;
-        foreach(var p in products)
+        
+        foreach (var product in products)
         {
+            var price = Convert.ToInt32(product[0]);
 
-            price = Convert.ToInt32(p[0]);
-            result += price;
+            List<int> possiblePrices = new List<int>();
+            possiblePrices.Add(price);
+
+            foreach( var discount in discounts)
+            {
+                if( product[1] == discount[0] )
+                {
+                    int discountedPrice = GetDiscountAmount(product, discount);
+                    possiblePrices.Add(discountedPrice);
+                }
+
+                if (product[2] == discount[0])
+                {
+                    int discountedPrice = GetDiscountAmount(product, discount);
+                    possiblePrices.Add(discountedPrice);
+                }
+            }
+
+            result += possiblePrices.Min();
+
         }
         return result;
     }
+
+
+    //discount type 0 means sale price in array
+    // type 1 means % discount applied to sale price
+    //type 2 means discount amount in array from price
+
+    private static int GetDiscountAmount(List<string> product, List<string> discount)
+    {
+        int result = 0;
+        int discountprice = 0;
+        var pricetag = Convert.ToInt32(product[0]);
+
+      
+                if(discount[1] == "0")
+                {
+                    //apply price is sold for price given in discount
+                    discountprice = Convert.ToInt32(discount[2]);
+                }
+                else if (discount[1] == "1")
+                {
+                    //getpercent
+                    var dispercent = Convert.ToInt32(discount[2]);
+                    double percentamt = pricetag - (pricetag * dispercent / 100);
+                    discountprice = Convert.ToInt32(Math.Round(percentamt));
+                }
+                else if (discount[1] == "2")
+                {
+                    //price is less amount noted
+                    var discountAmount = Convert.ToInt32(discount[2]);
+                    discountprice = pricetag - discountAmount;
+                }
+           
+        return discountprice;
+    }
+
 
 }
 
