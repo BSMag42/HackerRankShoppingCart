@@ -10,14 +10,20 @@ namespace HackerRankShoppingCartTests
         private List<List<string>> discounts = new List<List<string>>();
         private List<string> productWithNoDiscounts = new List<string>()
         {
-            "10",
+            "100",
             "EMPTY",
             "EMPTY"
         };
         private List<string> productWithPercentageAndFixedPriceDiscount = new List<string>()
         {
-            "10",
+            "100",
             "sale",
+            "january-sale"
+        };
+        private List<string> productWithPercentageDiscount = new List<string>()
+        {
+            "100",
+            "EMPTY",
             "january-sale"
         };
 
@@ -53,6 +59,13 @@ namespace HackerRankShoppingCartTests
             "2",
             "100"
         };
+        private List<string> productWithAllDiscounts = new List<string>() 
+        { 
+            "201",
+            "sale",
+            "january-sale",
+            "fixedAmount"
+        };
 
         [Fact]
         public void emptyCartReturnsZero()
@@ -67,7 +80,7 @@ namespace HackerRankShoppingCartTests
         {
             products.Add(productWithNoDiscounts);
             int cartprice = Result.findLowestPrice(products, discounts);
-            Assert.Equal(10, cartprice);
+            Assert.Equal(100, cartprice);
         }
 
         [Fact]
@@ -76,7 +89,7 @@ namespace HackerRankShoppingCartTests
             products.Add(productWithNoDiscounts);
             products.Add(productWithNoDiscounts);
             int cartprice = Result.findLowestPrice(products, discounts);
-            Assert.Equal(20, cartprice);
+            Assert.Equal(200, cartprice);
         }
 
         [Fact]
@@ -88,17 +101,37 @@ namespace HackerRankShoppingCartTests
             Assert.Equal(100, cartprice);
 
         }
+        [Fact]
+        public void itemWithPercentageDiscountAppliesDiscount()
+        {
+            products.Add(productWithPercentageDiscount);
+            discounts.Add(percentageDiscount);
+            int cartprice = Result.findLowestPrice(products, discounts);
+            Assert.Equal(90, cartprice);
+
+        }
 
         [Fact]
         public void givenTwoDiscountsApplyLowest()
         {
-            products.Add(productWithPercentageAndFixedPriceDiscount);
+            products.Add(productWithPercentageDiscount);
             products.Add(productWithFixedPriceDiscount);
             discounts.Add(fixedPriceDiscount);
             discounts.Add(percentageDiscount);
 
             int cartprice = Result.findLowestPrice(products, discounts);
-            Assert.Equal(19, cartprice);
+            Assert.Equal(100, cartprice);
+        }
+
+        [Fact]
+        public void productWithMultipleDiscountsSelectsBestDiscount()
+        {
+            products.Add(productWithAllDiscounts);
+            discounts.Add(fixedAmountDiscount);
+            discounts.Add(percentageDiscount);
+            discounts.Add(fixedPriceDiscount);
+            int cartprice = Result.findLowestPrice(products, discounts);
+            Assert.Equal(10, cartprice);
         }
     }
 

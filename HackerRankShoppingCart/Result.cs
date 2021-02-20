@@ -39,16 +39,13 @@ public class Result
 
             foreach( var discount in discounts)
             {
-                if( product[1] == discount[0] )
+                var productDiscountCodes = product.GetRange(1, product.Count - 1);
+                foreach (var productDiscountCode in productDiscountCodes) 
                 {
-                    int discountedPrice = GetDiscountAmount(product, discount);
-                    possiblePrices.Add(discountedPrice);
-                }
-
-                if (product[2] == discount[0])
-                {
-                    int discountedPrice = GetDiscountAmount(product, discount);
-                    possiblePrices.Add(discountedPrice);
+                    if (productDiscountCode == discount[0])
+                    {
+                        possiblePrices.Add(GetDiscountAmount(product, discount));
+                    }
                 }
             }
 
@@ -65,7 +62,6 @@ public class Result
 
     private static int GetDiscountAmount(List<string> product, List<string> discount)
     {
-        int result = 0;
         int discountprice = 0;
         var pricetag = Convert.ToInt32(product[0]);
 
