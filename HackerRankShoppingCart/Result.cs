@@ -14,7 +14,7 @@ using System;
 
 
 
-class Result
+public class Result
 {
 
     /*
@@ -28,7 +28,15 @@ class Result
 
     public static int findLowestPrice(List<List<string>> products, List<List<string>> discounts)
     {
+        var price = 0;
+        var result = 0;
+        foreach(var p in products)
+        {
 
+            price = Convert.ToInt32(p[0]);
+            result += price;
+        }
+        return result;
     }
 
 }
@@ -67,4 +75,5 @@ class Solution
         textWriter.Close();
     }
 }
+
 
