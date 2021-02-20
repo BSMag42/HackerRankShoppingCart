@@ -64,30 +64,28 @@ public class Result
     {
         int discountprice = 0;
         var pricetag = Convert.ToInt32(product[0]);
-
       
-                if(discount[1] == "0")
-                {
-                    //apply price is sold for price given in discount
-                    discountprice = Convert.ToInt32(discount[2]);
-                }
-                else if (discount[1] == "1")
-                {
-                    //getpercent
-                    var dispercent = Convert.ToInt32(discount[2]);
-                    double percentamt = pricetag - (pricetag * dispercent / 100);
-                    discountprice = Convert.ToInt32(Math.Round(percentamt));
-                }
-                else if (discount[1] == "2")
-                {
-                    //price is less amount noted
-                    var discountAmount = Convert.ToInt32(discount[2]);
-                    discountprice = pricetag - discountAmount;
-                }
+        if(discount[1] == "0")
+        {
+            //apply price is sold for price given in discount
+            discountprice = Convert.ToInt32(discount[2]);
+        }
+        else if (discount[1] == "1")
+        {
+            //getpercent
+            var dispercent = Convert.ToInt32(discount[2]);
+            double percentamt = pricetag - (pricetag * dispercent / 100);
+            discountprice = Convert.ToInt32(Math.Round(percentamt));
+        }
+        else if (discount[1] == "2")
+        {
+            //price is less amount noted
+            var discountAmount = Convert.ToInt32(discount[2]);
+            discountprice = pricetag - discountAmount;
+        }
            
         return discountprice;
     }
-
 
 }
 
